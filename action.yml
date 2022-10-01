@@ -1,0 +1,70 @@
+name: 'RSSify Any'
+description: 'To generate an RSS feed for any blog/website'
+inputs:
+  title:
+    description: 'RSS title'
+    required: true
+  subtitle:
+    description: 'RSS subtitle'
+    required: false
+  url:
+    description: 'Website url'
+    required: true
+  item-title-css:
+    description: 'CSS selector to get item title'
+    required: true
+  item-url-css:
+    description: 'CSS selector to get item url'
+    required: true
+  item-description-css:
+    description: 'CSS selector to get item description'
+    required: false
+  item-date-css:
+    description: 'CSS selector to get Item post date'
+    required: false
+  item-date-format:
+    description: 'Date format of item post date, help to parse date'
+    required: false
+  item-timezone:
+    description: 'Timezone applied to item post date'
+    required: false
+    default: 'Asia/Shanghai'
+runs:
+  using: "composite"
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install Dependencies
+      run: pip install requests feedgen bs4 pytz
+      shell: bash
+    - name: Pass Inputs to Shell
+      run: |
+       echo "TITLE=${{ inputs.title }}" >> $GITHUB_ENV
+       echo "SUBTITLE=${{ inputs.subtitle }}" >> $GITHUB_ENV
+       echo "URL=${{ inputs.url }}" >> $GITHUB_ENV
+       echo "ITEM_TITLE_CSS=${{ inputs.item-title-css }}" >> $GITHUB_ENV
+       echo "ITEM_URL_CSS=${{ inputs.item-url-css }}" >> $GITHUB_ENV
+       echo "ITEM_DESCRIPTION_CSS=${{ inputs.item-description-css }}" >> $GITHUB_ENV
+       echo "ITEM_DATE_CSS=${{ inputs.item-date-css }}" >> $GITHUB_ENV
+       echo "ITEM_DATE_FORMAT=${{ inputs.item-date-format }}" >> $GITHUB_ENV
+       echo "ITEM_TIMEZONE=${{ inputs.item-timezone }}" >> $GITHUB_ENV
+      shell: bash
+    - name: Generate RSS files
+      run: python ./rssify.py
+      shell: bash
+    - name: Store RSS files in the repo
+      run: |
+        # git commit if there's any change
+        if test -n "$(git status --porcelain 2>/dev/null)"; then
+            git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
+            git add .
+            git commit -m "Update RSS files"
+            git push origin ${GITHUB_REF##*/}
+        fi
+      shell: bash
+branding:
+  icon: 'rss'
+  color: 'green'

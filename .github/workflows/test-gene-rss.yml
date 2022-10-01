@@ -1,0 +1,21 @@
+name: Test RSS generation
+
+on: [push]
+
+jobs:
+  gene-rss:
+    runs-on: ubuntu-latest
+    name: A job to test RSS generation
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Test Rssify
+      uses: ./
+      with:
+        title: Test Rssify
+        url: https://gitx.io/
+        item-title-css: .post-title > a
+        item-url-css: .post-title > a
+        item-description-css: .cover-text
+        item-date-css: .post-time
+        item-date-format: '%Y-%m-%d'
