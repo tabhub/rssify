@@ -20,12 +20,14 @@ r = requests.get(url)
 soup = BeautifulSoup(r.text, 'lxml')
 titles = soup.select(item_title_selector)
 urls = soup.select(item_url_selector)
-descriptions = soup.select(item_description_selector)
 
+descriptions = []
+if item_description_selector:
+    descriptions = soup.select(item_description_selector)
+
+dates = []
 if item_date_selector:
     dates = soup.select(item_date_selector)
-else:
-    dates = None
 
 fg = FeedGenerator()
 fg.title(title)
@@ -42,9 +44,9 @@ for i in range(len(titles)):
     fe = fg.add_entry()
     fe.title(titles[i].text)
     fe.link(href=urljoin(url, urls[i].get('href')), rel='alternate')
-    if descriptions[i]:
+    if descriptions and descriptions[i]:
         fe.description(descriptions[i].text)
-    if dates is not None and item_date_format:
+    if dates and item_date_format:
         date = datetime.strptime(dates[i].text.strip(), item_date_format)
         if item_timezone:
             localtz = timezone(item_timezone)

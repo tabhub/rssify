@@ -52,7 +52,7 @@ runs:
        echo "ITEM_TIMEZONE=${{ inputs.item-timezone }}" >> $GITHUB_ENV
       shell: bash
     - name: Generate RSS files
-      run: python ./rssify.py
+      run: python ${{ github.action_path }}/rssify.py
       shell: bash
     - name: Store RSS files in the repo
       run: |
