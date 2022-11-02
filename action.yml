@@ -16,6 +16,9 @@ inputs:
   item-url-css:
     description: 'CSS selector to get item url'
     required: true
+  item-author-css:
+    description: 'CSS selector to get item author'
+    required: false
   item-description-css:
     description: 'CSS selector to get item description'
     required: false
@@ -46,6 +49,7 @@ runs:
        echo "URL=${{ inputs.url }}" >> $GITHUB_ENV
        echo "ITEM_TITLE_CSS=${{ inputs.item-title-css }}" >> $GITHUB_ENV
        echo "ITEM_URL_CSS=${{ inputs.item-url-css }}" >> $GITHUB_ENV
+       echo "ITEM_AUTHOR_CSS=${{ inputs.item-author-css }}" >> $GITHUB_ENV
        echo "ITEM_DESCRIPTION_CSS=${{ inputs.item-description-css }}" >> $GITHUB_ENV
        echo "ITEM_DATE_CSS=${{ inputs.item-date-css }}" >> $GITHUB_ENV
        echo "ITEM_DATE_FORMAT=${{ inputs.item-date-format }}" >> $GITHUB_ENV

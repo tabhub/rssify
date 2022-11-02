@@ -11,6 +11,7 @@ subtitle = os.environ.get('SUBTITLE')
 url = os.environ.get('URL')
 item_title_selector = os.environ.get('ITEM_TITLE_CSS')
 item_url_selector = os.environ.get('ITEM_URL_CSS')
+item_author_selector = os.environ.get('ITEM_AUTHOR_CSS')
 item_description_selector = os.environ.get('ITEM_DESCRIPTION_CSS')
 item_date_selector = os.environ.get('ITEM_DATE_CSS')
 item_date_format = os.environ.get('ITEM_DATE_FORMAT')
@@ -24,6 +25,10 @@ urls = soup.select(item_url_selector)
 descriptions = []
 if item_description_selector:
     descriptions = soup.select(item_description_selector)
+
+authors = []
+if item_author_selector:
+    authors = soup.select(item_author_selector)
 
 dates = []
 if item_date_selector:
@@ -44,17 +49,20 @@ for i in range(len(titles)):
     fe = fg.add_entry()
     fe.title(titles[i].text)
     fe.link(href=urljoin(url, urls[i].get('href')), rel='alternate')
+
     if descriptions and descriptions[i]:
         fe.description(descriptions[i].text)
+
+    if authors and authors[i]:
+        fe.author({'name': authors[i].text})
+
     if dates and item_date_format:
         date = datetime.strptime(dates[i].text.strip(), item_date_format)
-        if item_timezone:
-            localtz = timezone(item_timezone)
-            date = localtz.localize(date)
     else:
-        #date = datetime.now(timezone("Europe/Berlin"))
-        date = '1970-01-01 00:00:00+02:00'
+        date = datetime.utcnow()
 
+    localtz = timezone(item_timezone)
+    date = localtz.localize(date)
     fe.published(date)
 
 fg.rss_file('rss.xml')
