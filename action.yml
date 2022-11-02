@@ -10,6 +10,18 @@ inputs:
   url:
     description: 'Website url'
     required: true
+  language:
+    description: 'RSS language'
+    required: true
+    default: en
+  author-name:
+    description: 'RSS author name'
+    required: true
+    default: TabHub
+  author-email:
+    description: 'RSS author email'
+    required: true
+    default: 'idegorepl@gmail'
   item-title-css:
     description: 'CSS selector to get item title'
     required: true
@@ -47,6 +59,9 @@ runs:
        echo "TITLE=${{ inputs.title }}" >> $GITHUB_ENV
        echo "SUBTITLE=${{ inputs.subtitle }}" >> $GITHUB_ENV
        echo "URL=${{ inputs.url }}" >> $GITHUB_ENV
+       echo "AUTHOR_NAME=${{ inputs.author-name }}" >> $GITHUB_ENV
+       echo "AUTHOR_EMAIL=${{ inputs.author-email }}" >> $GITHUB_ENV
+       echo "LANGUAGE=${{ inputs.language }}" >> $GITHUB_ENV
        echo "ITEM_TITLE_CSS=${{ inputs.item-title-css }}" >> $GITHUB_ENV
        echo "ITEM_URL_CSS=${{ inputs.item-url-css }}" >> $GITHUB_ENV
        echo "ITEM_AUTHOR_CSS=${{ inputs.item-author-css }}" >> $GITHUB_ENV
