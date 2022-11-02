@@ -5,7 +5,7 @@ inputs:
     description: 'RSS title'
     required: true
   subtitle:
-    description: 'RSS subtitle'
+    description: 'RSS subtitle/description'
     required: false
   url:
     description: 'Website url'
