@@ -54,7 +54,7 @@ for i in range(len(titles)):
         fe.description(descriptions[i].text)
 
     if authors and authors[i]:
-        fe.author({'name': authors[i].text})
+        fe.author(name=authors[i].text)
 
     if dates and item_date_format:
         date = datetime.strptime(dates[i].text.strip(), item_date_format)
