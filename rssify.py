@@ -65,4 +65,4 @@ for i in range(len(titles)):
     date = localtz.localize(date)
     fe.published(date)
 
-fg.rss_file('rss.xml')
+fg.atom_file('atom.xml')
