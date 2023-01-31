@@ -69,6 +69,7 @@ runs:
        echo "ITEM_DATE_CSS=${{ inputs.item-date-css }}" >> $GITHUB_ENV
        echo "ITEM_DATE_FORMAT=${{ inputs.item-date-format }}" >> $GITHUB_ENV
        echo "ITEM_TIMEZONE=${{ inputs.item-timezone }}" >> $GITHUB_ENV
+       echo "FILENAME=${{ inputs.filename }}" >> $GITHUB_ENV
       shell: bash
     - name: Generate RSS files
       run: python ${{ github.action_path }}/rssify.py

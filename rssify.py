@@ -19,6 +19,7 @@ item_description_selector = os.environ.get('ITEM_DESCRIPTION_CSS')
 item_date_selector = os.environ.get('ITEM_DATE_CSS')
 item_date_format = os.environ.get('ITEM_DATE_FORMAT')
 item_timezone = os.environ.get('ITEM_TIMEZONE')
+filename = os.environ.get('FILENAME', 'atom.xml')
 
 r = requests.get(url)
 soup = BeautifulSoup(r.text, 'lxml')
@@ -74,4 +75,4 @@ for i in range(len(titles)):
     fe.published(date)
     fe.updated(date)
 
-fg.atom_file('atom.xml')
+fg.atom_file(filename)
